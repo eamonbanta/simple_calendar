@@ -17,6 +17,7 @@ class Calendar:
     def build(self):
         """ Build html calendar based on given month and year """
         # get integer values for months and year
+        # prev_ and next_ values used for links
         month = self._month
         year = self._year
         prev_month = month - 1
