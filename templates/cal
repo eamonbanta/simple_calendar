@@ -1,0 +1,14 @@
+<div id="cal">
+  <div id="title"><a href="/{{prev_month}}/{{prev_year}}/">&lt;&lt;</a>&nbsp; {{month_name}},{{year}} &nbsp;<a href="/{{next_month}}/{{next_year}}/">&gt;&gt;</a></div>
+  <div class="week" id="day_names">
+    <div class="day title sunday">Sunday</div>
+    <div class="day title">Monday</div>
+    <div class="day title">Tuesday</div>
+    <div class="day title">Wednesday</div>
+    <div class="day title">Thursday</div>
+    <div class="day title">Friday</div>
+    <div class="day title">Saturday</div>
+  </div>
+  
+  {{cal_html}}
+</div>

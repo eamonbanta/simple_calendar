@@ -1,0 +1,190 @@
+<html>
+<head></head>
+
+<script type="text/javascript">
+// these are human-readable month name labels, in order
+cal_months_labels = ['January', 'February', 'March', 'April',
+                    'May', 'June', 'July', 'August', 'September',
+                    'October', 'November', 'December'];
+
+// these are the days of the week for each month, in order
+cal_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+// this is the current date
+cal_current_date = new Date();
+
+function Calendar(month, year) {
+  this.month = (isNaN(month) || month == null) ?
+               cal_current_date.getMonth() : 
+               month;
+  this.year  = (isNaN(year) || year == null) ?
+               cal_current_date.getFullYear() : 
+               year;
+}
+
+Calendar.prototype.generateHTML = function(){
+  // get first day of month
+  var firstDay = new Date(this.year, this.month, 1);
+  var startingDay = firstDay.getDay();
+
+  // find number of days in month
+  var monthLength = cal_days_in_month[this.month];
+  var prevMonthLength = 0;
+  var prevMonthDay = 0;
+  var nextMonthDay = 1;
+  var prevMonth = this.month - 1;
+  var nextMonth = this.month + 1;
+  if (this.month == 0) { 
+    prevMonth = 12; 
+  } else if (this.month == 11) {
+    nextMonth = 0;
+  }
+  var isLeapYear = 0;
+  if((this.year % 4 == 0 && this.year % 100 != 0) || this.year % 400 == 0){
+    isLeapYear = 1;
+  }
+  if (startingDay > 0) {
+    prevMonthLength = cal_days_in_month[prevMonth];
+   
+    // compensate for leap year
+    if (prevMonth == 1 && isLeapYear == 1) { // February only!
+      prevMonthLength = 29;
+    }
+   
+    prevMonthDay = prevMonthLength - startingDay + 1;
+  }
+
+  // compensate for leap year
+  if (this.month == 1 && isLeapYear == 1) { // February only!
+    monthLength = 29;
+  }
+
+  // fill in the days
+  var day = 1;
+  var calDay = 1;
+  // this loop is for is weeks (rows)
+  for (var i = 0; i < 9; i++) {
+    // this loop is for weekdays (cells)
+    for (var j = 0; j <= 6; j++) {
+      dayDiv = document.getElementById('day' + calDay);
+      if (day <= monthLength && (i > 0 || j >= startingDay)) {
+        dayDiv.innerHTML = day;
+        dayDiv.style.background = 'pink';
+        day++;
+      } else {
+        if (prevMonthDay > 0 && prevMonthDay <= prevMonthLength) {
+          dayDiv.innerHTML = prevMonthDay;
+          prevMonthDay++;
+        } else {
+          dayDiv.innerHTML = nextMonthDay;
+          nextMonthDay++;
+        }
+        dayDiv.style.background = 'gray';
+      }
+      calDay++;
+    }
+    // stop making rows if we've run out of days
+    if (day > monthLength) {
+      break;
+    }
+  }
+}
+</script>
+<style>
+#cal { clear: both; }
+#cal .day { background: gray; }
+#cal .active { background: pink; }
+#cal .title { background: white; }
+#calendar > #title, #cal > #title { margin: 0px auto; }
+.week { clear: both; }
+.day {
+  width: 100px; 
+  float: left;
+  border-right: solid black 1px; 
+  border-top: solid black 1px; 
+}
+.sunday { border-left: solid black 1px; }
+</style>
+</head>
+
+<body>
+<div class="header">Javascript Calendar</div>
+<div id="calendar">
+  <div id="title"><a href="/{{prev_month}}/{{year}}/">&lt;&lt;</a>&nbsp; {{month_name}}, {{year}} &nbsp;<a href="/{{next_month}}/{{next_year}}/">&gt;&gt;</a></div>
+  <div class="week" id="day_names">
+    <div class="day title sunday">Sunday</div>
+    <div class="day title">Monday</div>
+    <div class="day title">Tuesday</div>
+    <div class="day title">Wednesday</div>
+    <div class="day title">Thursday</div>
+    <div class="day title">Friday</div>
+    <div class="day title">Saturday</div>
+  </div>
+  <div class="week" id="week1">
+    <div class="day sunday" id="day1"></div>
+    <div class="day" id="day2"></div>
+    <div class="day" id="day3"></div>
+    <div class="day" id="day4"></div>
+    <div class="day" id="day5"></div>
+    <div class="day" id="day6"></div>
+    <div class="day" id="day7"></div>
+  </div>
+  <div class="week" id="week2">
+    <div class="day sunday" id="day8"></div>
+    <div class="day" id="day9"></div>
+    <div class="day" id="day10"></div>
+    <div class="day" id="day11"></div>
+    <div class="day" id="day12"></div>
+    <div class="day" id="day13"></div>
+    <div class="day" id="day14"></div>
+  </div>
+  <div class="week" id="week3">
+    <div class="day sunday" id="day15"></div>
+    <div class="day" id="day16"></div>
+    <div class="day" id="day17"></div>
+    <div class="day" id="day18"></div>
+    <div class="day" id="day19"></div>
+    <div class="day" id="day20"></div>
+    <div class="day" id="day21"></div>
+  </div>
+  <div class="week" id="week4">
+    <div class="day sunday" id="day22"></div>
+    <div class="day" id="day23"></div>
+    <div class="day" id="day24"></div>
+    <div class="day" id="day25"></div>
+    <div class="day" id="day26"></div>
+    <div class="day" id="day27"></div>
+    <div class="day" id="day28"></div>
+  </div>
+  <div class="week" id="week5">
+    <div class="day sunday" id="day29"></div>
+    <div class="day" id="day30"></div>
+    <div class="day" id="day31"></div>
+    <div class="day" id="day32"></div>
+    <div class="day" id="day33"></div>
+    <div class="day" id="day34"></div>
+    <div class="day" id="day35"></div>
+  </div>
+  <div class="week" id="week6">
+    <div class="day sunday" id="day36"></div>
+    <div class="day" id="day37"></div>
+    <div class="day" id="day38"></div>
+    <div class="day" id="day39"></div>
+    <div class="day" id="day40"></div>
+    <div class="day" id="day41"></div>
+    <div class="day" id="day42"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+ var cal = new Calendar({{month}},{{year}});
+ cal.generateHTML();
+</script>
+
+<br /><br />
+<div class="header">Python Calendar</div>
+
+{{cal_html}}
+
+</body>
+</html>
